@@ -1,1 +1,12 @@
-{"tasks":[{"id":2,"text":"Doctor Appointment","date":"14 Jul 2021","reminder":true}]}
+{
+  "tasks": [
+    {
+      "id": 2,
+      "text": "Doctor Appointment",
+      "date": "14 Jul 2021",
+      "reminder": true
+    },
+    { "id": 3, "text": "Doctor", "date": "13 Jul 2021", "reminder": true },
+    { "id": 1, "text": "test", "date": "09 Jun 2021", "reminder": false }
+  ]
+}

@@ -4,11 +4,13 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
+//const PORT = 8000;
 
 const app = express();
-
 app.use(cors());
+app.use(express.json());
+//app.use(express.urlencoded());
 
 app.get("/tasks", (req, res) => {
   var db = fs.readFileSync("server/db.json"); // cannot use require here because require will send the cached old data
@@ -29,7 +31,30 @@ app.delete("/tasks/:id", (req, res) => {
   console.log(Tasklist);
 });
 
-app.post("/tasks/:id", (req, res) => {});
+app.post("/tasks", (req, res) => {
+  var newTask = req.body;
+
+  var db = fs.readFileSync("server/db.json");
+  var Tasklist = JSON.parse(db);
+  var id = 1;
+  Tasklist.tasks.forEach((task) => {
+    if (task.id == id) {
+      id += 1;
+    }
+    if (task.text == newTask.text && task.date == newTask.date) {
+      console.log("Error: Duplicated task not saved");
+      id = -1;
+      return;
+    }
+  });
+
+  if (id !== -1) {
+    newTask = { id, ...newTask }; // add id to the task
+    Tasklist.tasks = [...Tasklist.tasks, newTask];
+    fs.writeFileSync("server/db.json", JSON.stringify(Tasklist));
+    console.log(Tasklist);
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
