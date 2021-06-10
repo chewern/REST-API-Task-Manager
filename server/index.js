@@ -38,8 +38,8 @@ app.post("/tasks", (req, res) => {
   var Tasklist = JSON.parse(db);
   var id = 1;
   Tasklist.tasks.forEach((task) => {
-    if (task.id == id) {
-      id += 1;
+    if (task.id >= id) {
+      id = task.id + 1;
     }
     if (task.text == newTask.text && task.date == newTask.date) {
       console.log("Error: Duplicated task not saved");
@@ -53,6 +53,7 @@ app.post("/tasks", (req, res) => {
     Tasklist.tasks = [...Tasklist.tasks, newTask];
     fs.writeFileSync("server/db.json", JSON.stringify(Tasklist));
     console.log(Tasklist);
+    res.json(Tasklist.tasks);
   }
 });
 

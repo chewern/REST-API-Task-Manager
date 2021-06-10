@@ -1,12 +1,1 @@
-{
-  "tasks": [
-    {
-      "id": 2,
-      "text": "Doctor Appointment",
-      "date": "14 Jul 2021",
-      "reminder": true
-    },
-    { "id": 3, "text": "Doctor", "date": "13 Jul 2021", "reminder": true },
-    { "id": 1, "text": "test", "date": "09 Jun 2021", "reminder": false }
-  ]
-}
+{"tasks":[{"id":2,"text":"two","date":"10 Jun 2021","reminder":false},{"id":4,"text":"one","date":"10 Jun 2021","reminder":false},{"id":5,"text":"three","date":"10 Jun 2021","reminder":false},{"id":9,"text":"four","date":"11 Jun 2021","reminder":false}]}
