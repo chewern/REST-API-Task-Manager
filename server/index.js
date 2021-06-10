@@ -20,6 +20,38 @@ app.get("/tasks", (req, res) => {
   console.log(`Server sent data from port ${PORT}`);
 });
 
+app.get("/tasks/:id", (req, res) => {
+  var db = fs.readFileSync("server/db.json"); // cannot use require here because require will send the cached old data
+  var Tasklist = JSON.parse(db);
+
+  var Task = Tasklist.tasks.filter((task) => {
+    return task.id == req.params.id;
+  });
+  res.json(Task);
+
+  console.log(`Server sent single task from port ${PORT}`);
+  //console.log(Task);
+});
+
+app.put("/tasks/:id", (req, res) => {
+  var putTask = req.body[0];
+  console.log("what is putTask", putTask.reminder);
+  var db = fs.readFileSync("server/db.json");
+  var Tasklist = JSON.parse(db);
+
+  Tasklist.tasks.forEach((task) => {
+    if (task.id == putTask.id) {
+      console.log(task.reminder, task.id, putTask.reminder);
+      task.reminder = putTask.reminder;
+      console.log("reminder changed for ", putTask.id);
+    }
+  });
+
+  fs.writeFileSync("server/db.json", JSON.stringify(Tasklist));
+  console.log("reminder change for ", putTask);
+  res.json(putTask);
+});
+
 app.delete("/tasks/:id", (req, res) => {
   var removeID = parseInt(req.params.id);
   var db = fs.readFileSync("server/db.json");
